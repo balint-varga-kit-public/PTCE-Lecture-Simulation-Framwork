@@ -28,17 +28,11 @@ In order to pull the repository from Github, authentification using HTTPS is nec
 - Save the token (in a file or in your notes) as it functions as a password everytime git is used to push and pull your code
 
 ## Fork you repository
-Since you have to work on your own, first you have to fork this repository by clicking on right side top, "Fork" button. Choose your namespace, YOUR-GIT-NAMESPACE, see image.
-
-![img](readmeImg/git_namespace_ptce.jpg){width=100%}
+Since you have to work on your own, first you have to fork this repository by clicking on right side top, "Fork" button. 
 
 ## Clone the repository into your workspace
 In the source folder of your workspace clone the forked repository from your personal working space
-```
-cd ~/ros2_ws/src
-git clone https://gitlab.kit.edu/YOUR-GIT-NAMESPACE/practical-tools-for-control-engineers-homework-repo.git
-```
-Where you have to choose YOUR-GIT-NAMESPACE.
+
 Insert your username and the password which corresponds to the generated access token. 
 Use the following lines to check weather the cloning was successfull:
 ```
