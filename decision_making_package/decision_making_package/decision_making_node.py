@@ -167,43 +167,39 @@ class DecisionMakingNode(Node):
             # Something went wrong.
             self.get_logger().error("Invalid PedestrianIntentionStateList length")
 
-    def timer_callback(self):
-        start_time = time.time()
-        
-        
-        # HERE IS THE CONTROLLER:
-
-        def simple_controller_and_publish():
+    
+    def simple_controller_and_publish(self):
             
             
-            # Simple P controller to keep the desired velocity.
-            if self.Index == 0:
-                Kp = 0.5
-                vehicle_input = Kp * (0.0 - self.vehicle.x_speed)
-                vehicle_input = max(-6, min(vehicle_input, 1.5)) # deceleration limits
-                 
-            elif self.Index == 1:
-                Kp = 0.3
-                vehicle_input = Kp * (0.0 - self.vehicle.x_speed)
-                vehicle_input = max(-6, min(vehicle_input, 1.5)) # deceleration limits
-
-            elif self.Index == 2:
-                Kp = 0.4
-                vehicle_input = Kp * (8.0 - self.vehicle.x_speed)
-                vehicle_input = max(-6, min(vehicle_input, 1.5)) # acceleration limits
-
-            
+        # Simple P controller to keep the desired velocity.
+        if self.Index == 0:
+            Kp = 0.5
+            vehicle_input = Kp * (0.0 - self.vehicle.x_speed)
+            vehicle_input = max(-6, min(vehicle_input, 1.5)) # deceleration limits
                 
+        elif self.Index == 1:
+            Kp = 0.3
+            vehicle_input = Kp * (0.0 - self.vehicle.x_speed)
+            vehicle_input = max(-6, min(vehicle_input, 1.5)) # deceleration limits
+
+        elif self.Index == 2:
+            Kp = 0.4
+            vehicle_input = Kp * (8.0 - self.vehicle.x_speed)
+            vehicle_input = max(-6, min(vehicle_input, 1.5)) # acceleration limits
+        else:
+            vehicle_input = 0.0
+        
+        # Puglish the normal input
+        self.ehmi_decision_result_message.vehicle_acceleration_desired = vehicle_input
+        self.decision_result_publisher.publish(self.ehmi_decision_result_message)
 
 
-            
-            # Puglish the normal input
-            self.ehmi_decision_result_message.vehicle_acceleration_desired = vehicle_input
-            self.decision_result_publisher.publish(self.ehmi_decision_result_message)
+    def timer_callback(self):
+        # HERE IS THE CONTROLLER:
+        self.simple_controller_and_publish()
+        
 
-        simple_controller_and_publish()
 
-        duration = time.time() - start_time
 
 def main(args=None):
     rclpy.init(args=args)
